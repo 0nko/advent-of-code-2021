@@ -86,15 +86,20 @@ fun main() {
     }
 
     fun runSolution(block: (List<String>) -> Int, file: String) {
-        val input = readInput(file)
-        var result: Int
-        val time = measureTimeMillis {
-            result = block(input)
+        runCatching {
+            readInput(file)
+        }.onFailure {
+            println("$file not found")
+        }.onSuccess { input ->
+            var result: Int
+            val time = measureTimeMillis {
+                result = block(input)
+            }
+            println("$file: $result (${time}ms)")
         }
-        println("$file: $result (${time}ms)")
     }
 
     runSolution(::part1, "Day04part1")
-    runSolution(::part2, "Day04part2")
+    runSolution(::part2, "Day04part22")
 }
 
